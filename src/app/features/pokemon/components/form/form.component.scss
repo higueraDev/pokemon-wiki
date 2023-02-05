@@ -7,3 +7,10 @@ form {
 :is(mat-form-field,button) {
   margin: 10px;
 }
+
+.form-title-wrapper{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 10px;
+}

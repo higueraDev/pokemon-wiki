@@ -22,8 +22,8 @@ export class FormComponent implements OnInit {
 
   constructor(
     private readonly formBuilder: FormBuilder,
-    public dialogRef: MatDialogRef<FormComponent,Pokemon>,
-    @Inject(MAT_DIALOG_DATA)private readonly pokemon: Pokemon
+    public dialogRef: MatDialogRef<FormComponent, Pokemon>,
+    @Inject(MAT_DIALOG_DATA) private readonly pokemon: Pokemon
   ) {}
 
   ngOnInit() {
@@ -32,6 +32,10 @@ export class FormComponent implements OnInit {
 
   buildForm() {
     this.form = this.formBuilder.group(this.formFields);
+  }
+
+  close() {
+    this.dialogRef.close({ ...this.pokemon });
   }
 
   submit() {

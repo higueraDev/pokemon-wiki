@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { filter, Observable, tap } from 'rxjs';
 import { Pokemon } from '../../models/entities/pokemon';
 import { FirestoreService } from '../../core/firestore.service';
@@ -11,6 +11,8 @@ import { FormComponent } from './components/form/form.component';
   styleUrls: ['./pokemon.component.scss'],
 })
 export class PokemonComponent {
+  @ViewChild('container') container: ElementRef<HTMLDivElement>;
+
   public pokemon$: Observable<Pokemon[]>;
   public selectedPokemon: Pokemon | null = null;
 
@@ -29,7 +31,7 @@ export class PokemonComponent {
       {
         data: {},
         width: '90%',
-        maxWidth:'600px',
+        maxWidth: '600px',
       }
     );
 
@@ -48,7 +50,7 @@ export class PokemonComponent {
       {
         data: { ...this.selectedPokemon },
         width: '90%',
-        maxWidth:'600px',
+        maxWidth: '600px',
       }
     );
 
@@ -64,11 +66,11 @@ export class PokemonComponent {
 
   selectPokemon(pokemon?: Pokemon) {
     this.selectedPokemon = pokemon || null;
-    window.scrollTo({
-      top:0,
-      left:0,
-      behavior:'smooth'
-    })
+    this.container.nativeElement.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth',
+    });
   }
 
   deletePokemon() {
