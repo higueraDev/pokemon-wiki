@@ -13,7 +13,6 @@ export class FormComponent implements OnInit {
 
   private formFields = {
     height: [this.pokemon.height, [Validators.required]],
-    id: [this.pokemon.id],
     description: [this.pokemon.description, [Validators.required]],
     imgUrl: [this.pokemon.imgUrl, [Validators.required]],
     name: [this.pokemon.name, [Validators.required]],
@@ -23,8 +22,8 @@ export class FormComponent implements OnInit {
 
   constructor(
     private readonly formBuilder: FormBuilder,
-    public dialogRef: MatDialogRef<FormComponent,Pokemon>,
-    @Inject(MAT_DIALOG_DATA)private readonly pokemon: Pokemon
+    public dialogRef: MatDialogRef<FormComponent, Pokemon>,
+    @Inject(MAT_DIALOG_DATA) private readonly pokemon: Pokemon
   ) {}
 
   ngOnInit() {

@@ -28,7 +28,8 @@ export class PokemonComponent {
       FormComponent,
       {
         data: {},
-        width: '40%',
+        width: '90%',
+        maxWidth:'600px',
       }
     );
 
@@ -45,8 +46,9 @@ export class PokemonComponent {
     const dialogRef = this.dialog.open<FormComponent, {}, Pokemon>(
       FormComponent,
       {
-        data: {},
-        width: '40%',
+        data: { ...this.selectedPokemon },
+        width: '90%',
+        maxWidth:'600px',
       }
     );
 
@@ -55,13 +57,13 @@ export class PokemonComponent {
       .pipe(
         filter(Boolean),
         tap((pokemon) => this.firestoreService.update(pokemon)),
-        tap((pokemon) => this.selectPokemon(pokemon))
+        tap(() => this.selectPokemon())
       )
       .subscribe();
   }
 
-  selectPokemon(pokemon: Pokemon) {
-    this.selectedPokemon = pokemon;
+  selectPokemon(pokemon?: Pokemon) {
+    this.selectedPokemon = pokemon || null;
   }
 
   deletePokemon() {

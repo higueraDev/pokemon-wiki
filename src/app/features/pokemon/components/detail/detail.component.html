@@ -1,18 +1,23 @@
-<div class="detail">
-  <h2>{{ pokemon.name }}</h2>
-  <h4>{{ pokemon.type }} type</h4>
-  <div class="content">
-    <img [src]="pokemon.imgUrl" />
-    <div>
-      <p>Height: {{ pokemon.height }}</p>
-      <p>Weight: {{ pokemon.weight }}</p>
-      <p>
-        {{ pokemon.description }}
-      </p>
-    </div>
-  </div>
-  <div>
+<mat-card class="detail">
+  <mat-card-header>
+    <div
+      mat-card-avatar
+      class="header-image"
+      [ngStyle]="{'background-image': 'url(' + pokemon.imgUrl + ')'}"
+    ></div>
+    <mat-card-title>{{ pokemon.name }}</mat-card-title>
+    <mat-card-subtitle>{{ pokemon.type }}</mat-card-subtitle>
+  </mat-card-header>
+  <img mat-card-image [src]="pokemon.imgUrl" [alt]="pokemon.name" />
+  <mat-card-content>
+    <p>Height: {{ pokemon.height }}</p>
+    <p>Weight: {{ pokemon.weight }}</p>
+    <p>
+      {{ pokemon.description }}
+    </p>
+  </mat-card-content>
+  <mat-card-actions class="button-wrapper">
     <button (click)="delete()" mat-raised-button color="warn">Delete</button>
     <button (click)="update()" mat-raised-button color="primary">Edit</button>
-  </div>
-</div>
+  </mat-card-actions>
+</mat-card>

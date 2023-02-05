@@ -4,6 +4,6 @@ form {
   flex-direction: column;
 }
 
-mat-form-field {
+:is(mat-form-field,button) {
   margin: 10px;
 }

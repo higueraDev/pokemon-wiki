@@ -1,8 +1,16 @@
 <div class="container">
   <div class="header">
-    <img src="https://fontmeme.com/permalink/230205/ab4f5e77fb66d15d29e6672df4b85c97.png" />
+    <img
+      src="https://fontmeme.com/permalink/230205/ab4f5e77fb66d15d29e6672df4b85c97.png"
+    />
   </div>
   <div class="content">
+    <app-detail
+      [pokemon]="selectedPokemon"
+      *ngIf="selectedPokemon"
+      (deleteEmitter)="deletePokemon()"
+      (updateEmitter)="updatePokemon()"
+    ></app-detail>
     <div class="list">
       <div class="list-header">
         <h3>List of Pokemon</h3>
@@ -15,11 +23,5 @@
         (pokemonEmitter)="selectPokemon($event)"
       ></app-catalog>
     </div>
-    <app-detail
-      [pokemon]="selectedPokemon"
-      *ngIf="selectedPokemon"
-      (deletePokemon)="deletePokemon()"
-      (updatePokemon)="updatePokemon()"
-    ></app-detail>
   </div>
 </div>
