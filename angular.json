@@ -56,7 +56,13 @@
               "vendorChunk": true,
               "extractLicenses": false,
               "sourceMap": true,
-              "namedChunks": true
+              "namedChunks": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.development.ts"
+                }
+              ]
             }
           },
           "defaultConfiguration": "production"
@@ -97,8 +103,21 @@
             ],
             "scripts": []
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {
+            "prerender": false,
+            "ssr": false,
+            "browserTarget": "pokemon-wiki:build:production",
+            "firebaseProject": "pokemon-wiki-7577e",
+            "firebaseHostingSite": "pokemon-wiki-7577e"
+          }
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "253b6d38-62aa-429c-9807-c79be71e4e8f"
   }
 }

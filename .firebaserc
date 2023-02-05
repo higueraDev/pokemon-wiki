@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "pokemon-wiki-7577e": {
+      "hosting": {
+        "pokemon-wiki": [
+          "pokemon-wiki-7577e"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "pokemon-wiki-7577e"
+  }
+}
