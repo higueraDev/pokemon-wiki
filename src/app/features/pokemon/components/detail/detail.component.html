@@ -8,14 +8,16 @@
     <mat-card-title>{{ pokemon.name }}</mat-card-title>
     <mat-card-subtitle>{{ pokemon.type }}</mat-card-subtitle>
   </mat-card-header>
-  <img mat-card-image [src]="pokemon.imgUrl" [alt]="pokemon.name" />
-  <mat-card-content>
-    <p>Height: {{ pokemon.height }}</p>
-    <p>Weight: {{ pokemon.weight }}</p>
-    <p>
-      {{ pokemon.description }}
-    </p>
-  </mat-card-content>
+  <div class="responsive-wrapper">
+    <img class="image" mat-card-image [src]="pokemon.imgUrl" [alt]="pokemon.name" />
+    <mat-card-content>
+      <p>Height: {{ pokemon.height }}</p>
+      <p>Weight: {{ pokemon.weight }}</p>
+      <p>
+        {{ pokemon.description }}
+      </p>
+    </mat-card-content>
+  </div>
   <mat-card-actions class="button-wrapper">
     <button (click)="delete()" mat-raised-button color="warn">Delete</button>
     <button (click)="update()" mat-raised-button color="primary">Edit</button>

@@ -21,7 +21,7 @@
   }
 
   .content {
-    background: rgba($color: #000000, $alpha: 0.3);
+    background: rgba($color: #000000, $alpha: 0.5);
     padding: 15px;
     .list-header {
       color: white;
@@ -31,4 +31,8 @@
       padding: 0 30px;
     }
   }
+}
+
+.detail-title{
+  color: white;
 }

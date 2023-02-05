@@ -64,6 +64,11 @@ export class PokemonComponent {
 
   selectPokemon(pokemon?: Pokemon) {
     this.selectedPokemon = pokemon || null;
+    window.scrollTo({
+      top:0,
+      left:0,
+      behavior:'smooth'
+    })
   }
 
   deletePokemon() {

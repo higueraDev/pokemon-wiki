@@ -5,12 +5,14 @@
     />
   </div>
   <div class="content">
-    <app-detail
-      [pokemon]="selectedPokemon"
-      *ngIf="selectedPokemon"
-      (deleteEmitter)="deletePokemon()"
-      (updateEmitter)="updatePokemon()"
-    ></app-detail>
+    <ng-container *ngIf="selectedPokemon">
+      <h2 class="detail-title">Pokemon Detail</h2>
+      <app-detail
+        [pokemon]="selectedPokemon"
+        (deleteEmitter)="deletePokemon()"
+        (updateEmitter)="updatePokemon()"
+      ></app-detail>
+    </ng-container>
     <div class="list">
       <div class="list-header">
         <h3>List of Pokemon</h3>
