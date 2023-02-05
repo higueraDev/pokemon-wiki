@@ -7,13 +7,15 @@ import { FormComponent } from './components/form/form.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '../../material/material.module';
 import { CatalogComponent } from './components/catalog/catalog.component';
+import { DetailComponent } from './components/detail/detail.component';
 
 
 @NgModule({
   declarations: [
     PokemonComponent,
     FormComponent,
-    CatalogComponent
+    CatalogComponent,
+    DetailComponent
   ],
   imports: [
     CommonModule,
