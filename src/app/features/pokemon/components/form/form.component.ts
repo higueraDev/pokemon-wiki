@@ -23,7 +23,7 @@ export class FormComponent implements OnInit {
 
   constructor(
     private readonly formBuilder: FormBuilder,
-    public dialogRef: MatDialogRef<FormComponent>,
+    public dialogRef: MatDialogRef<FormComponent,Pokemon>,
     @Inject(MAT_DIALOG_DATA)private readonly pokemon: Pokemon
   ) {}
 
