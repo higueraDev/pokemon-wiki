@@ -1,1 +1,25 @@
-<app-catalog></app-catalog>
+<div class="container">
+  <div class="header">
+    <img src="https://fontmeme.com/permalink/230205/ab4f5e77fb66d15d29e6672df4b85c97.png" />
+  </div>
+  <div class="content">
+    <div class="list">
+      <div class="list-header">
+        <h3>List of Pokemon</h3>
+        <button mat-raised-button color="primary" (click)="addPokemon()">
+          Add Pokemon
+        </button>
+      </div>
+      <app-catalog
+        [pokemon$]="pokemon$"
+        (pokemonEmitter)="selectPokemon($event)"
+      ></app-catalog>
+    </div>
+    <app-detail
+      [pokemon]="selectedPokemon"
+      *ngIf="selectedPokemon"
+      (deletePokemon)="deletePokemon()"
+      (updatePokemon)="updatePokemon()"
+    ></app-detail>
+  </div>
+</div>

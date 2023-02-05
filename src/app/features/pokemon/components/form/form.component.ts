@@ -13,7 +13,7 @@ export class FormComponent implements OnInit {
 
   private formFields = {
     height: [this.pokemon.height, [Validators.required]],
-    id: [this.pokemon.id, [Validators.required]],
+    id: [this.pokemon.id],
     description: [this.pokemon.description, [Validators.required]],
     imgUrl: [this.pokemon.imgUrl, [Validators.required]],
     name: [this.pokemon.name, [Validators.required]],
