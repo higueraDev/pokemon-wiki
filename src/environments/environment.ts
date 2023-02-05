@@ -6,4 +6,5 @@ export const environment = {
     apiKey: 'AIzaSyD7tDXVouXGTj1FiINYuhHaqPPjdm9PMFQ',
     authDomain: 'pokemon-wiki-7577e.firebaseapp.com',
     messagingSenderId: '777426924497',
-  },};
+  },
+};
