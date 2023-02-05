@@ -35,7 +35,7 @@ export class FormComponent implements OnInit {
   }
 
   close() {
-    this.dialogRef.close({ ...this.pokemon });
+    this.dialogRef.close();
   }
 
   submit() {
