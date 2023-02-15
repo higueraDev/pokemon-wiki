@@ -1,5 +1,5 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
-import { filter, Observable, tap } from 'rxjs';
+import { Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
+import { filter, Observable, Subject, takeUntil, tap } from 'rxjs';
 import { Pokemon } from '../../models/entities/pokemon';
 import { FirestoreService } from '../../core/firestore.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -10,11 +10,12 @@ import { FormComponent } from './components/form/form.component';
   templateUrl: './pokemon.component.html',
   styleUrls: ['./pokemon.component.scss'],
 })
-export class PokemonComponent {
+export class PokemonComponent implements OnDestroy {
   @ViewChild('container') container: ElementRef<HTMLDivElement>;
 
   public pokemon$: Observable<Pokemon[]>;
   public selectedPokemon: Pokemon | null = null;
+  private destroyed$ = new Subject<void>();
 
   constructor(
     private readonly firestoreService: FirestoreService,
@@ -39,7 +40,8 @@ export class PokemonComponent {
       .afterClosed()
       .pipe(
         filter(Boolean),
-        tap((pokemon) => this.firestoreService.create(pokemon))
+        tap((pokemon) => this.firestoreService.create(pokemon)),
+        takeUntil(this.destroyed$)
       )
       .subscribe();
   }
@@ -59,7 +61,8 @@ export class PokemonComponent {
       .pipe(
         filter(Boolean),
         tap((pokemon) => this.firestoreService.update(pokemon)),
-        tap(() => this.selectPokemon())
+        tap(() => this.selectPokemon()),
+        takeUntil(this.destroyed$)
       )
       .subscribe();
   }
@@ -76,5 +79,9 @@ export class PokemonComponent {
   deletePokemon() {
     this.firestoreService.delete(this.selectedPokemon!.id);
     this.selectedPokemon = null;
+  }
+
+  ngOnDestroy(): void {
+    this.destroyed$.next();
   }
 }
