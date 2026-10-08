@@ -1,3 +1,279 @@
-<main class="main">
-  <router-outlet></router-outlet>
+<a class="skip-link" href="#catalog">Skip to Pokédex</a>
+<header class="site-header">
+  <a class="brand" href="./" aria-label="Pokéwiki home"
+    ><span class="pokeball"></span>poké<span>wiki</span
+    ><span class="brand-dot">.</span></a
+  >
+  <nav aria-label="Main navigation">
+    <button [class.active]="!favoritesOnly" (click)="setCollection(false)">
+      Pokédex</button
+    ><button [class.active]="favoritesOnly" (click)="setCollection(true)">
+      Favorites <span class="count">{{ favorites.size }}</span>
+    </button>
+  </nav>
+  <a
+    class="source-link"
+    href="https://github.com/higueraDev/pokemon-wiki"
+    target="_blank"
+    rel="noopener noreferrer"
+    >View source ↗</a
+  >
+</header>
+<main>
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="hero-copy">
+      <p class="eyebrow"><span></span> THE ORIGINAL ADVENTURE</p>
+      <h1 id="hero-title">Big world.<br />Little <em>legends.</em></h1>
+      <p class="intro">
+        Every great journey starts with a little curiosity.<br
+          class="desktop-break"
+        />
+        Meet the original 151. Find your next favorite.
+      </p>
+      <a class="primary" href="#catalog">Explore the Pokédex <span>↗</span></a>
+      <div class="hero-meta">
+        <span><b>151</b> Pokémon</span><i></i><span><b>01</b> Region</span
+        ><i></i><span>Endless discoveries</span>
+      </div>
+    </div>
+    <div class="hero-art">
+      <div class="orbit orbit-one"></div>
+      <div class="orbit orbit-two"></div>
+      <span class="art-spark spark-one">✦</span
+      ><span class="art-spark spark-two">✧</span
+      ><span class="art-label">KANTO FIELD GUIDE</span
+      ><img
+        src="assets/pokemon/25.png"
+        alt="Pikachu, the Electric-type Pokémon"
+        width="475"
+        height="475"
+        fetchpriority="high"
+      />
+      <div class="specimen">
+        <span class="specimen-dot"></span>
+        <div><b>Pikachu</b><span>#025 · Mouse Pokémon</span></div>
+        <span class="electric-label">ϟ</span>
+      </div>
+      <span class="art-coordinate">EST. 1996 / KANTO</span>
+    </div>
+  </section>
+  <section id="catalog" class="catalog" aria-labelledby="catalog-title">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">A WORLD WORTH EXPLORING</p>
+        <h2 id="catalog-title">
+          {{ favoritesOnly ? "Your favorites" : "The Pokédex"
+          }}<span>{{ favoritesOnly ? favorites.size : "151" }}</span>
+        </h2>
+      </div>
+      <button class="surprise" (click)="surprise()">
+        ⤨ <span>Surprise me</span>
+      </button>
+    </div>
+    <div class="filters">
+      <label class="search"
+        ><span aria-hidden="true">⌕</span
+        ><input
+          type="search"
+          [(ngModel)]="query"
+          (ngModelChange)="update()"
+          placeholder="Search by name or number…"
+          aria-label="Search by name or number"
+        /><kbd>/ 151</kbd></label
+      ><label class="select-wrap"
+        ><span>TYPE</span
+        ><select
+          aria-label="Filter by type"
+          [(ngModel)]="type"
+          (ngModelChange)="update()"
+        >
+          <option value="">All types</option>
+          <option *ngFor="let t of types" [value]="t">
+            {{ t | titlecase }}
+          </option>
+        </select></label
+      ><label class="select-wrap sort"
+        ><span>SORT BY</span
+        ><select
+          aria-label="Sort Pokémon"
+          [(ngModel)]="sort"
+          (ngModelChange)="update()"
+        >
+          <option value="number">Number ↑</option>
+          <option value="reverse">Number ↓</option>
+          <option value="name">Name A–Z</option>
+        </select></label
+      >
+    </div>
+    <div class="results-line">
+      <p role="status">
+        {{ filtered.length }} Pokémon
+        {{ favoritesOnly ? "in your favorites" : "to discover" }}
+      </p>
+      <button
+        *ngIf="query || type || favoritesOnly"
+        class="clear"
+        (click)="reset()"
+      >
+        Reset filters ×</button
+      ><span class="region-label">KANTO REGION <span>●</span></span>
+    </div>
+    <p *ngIf="notice" role="status" class="notice">{{ notice }}</p>
+    <div class="pokemon-grid">
+      <article
+        *ngFor="let p of filtered | slice: 0 : limit; trackBy: trackPokemon"
+        class="pokemon-card"
+        [attr.data-type]="p.types[0]"
+      >
+        <button
+          class="favorite"
+          [class.saved]="favorites.has(p.id)"
+          [attr.aria-label]="
+            (favorites.has(p.id) ? 'Remove ' : 'Save ') +
+            p.name +
+            (favorites.has(p.id) ? ' from favorites' : ' to favorites')
+          "
+          [attr.aria-pressed]="favorites.has(p.id)"
+          (click)="toggleFavorite(p)"
+        >
+          {{ favorites.has(p.id) ? "♥" : "♡" }}</button
+        ><button
+          class="card-open"
+          (click)="open(p)"
+          [attr.aria-label]="'View ' + p.name + ' details'"
+        >
+          <span class="card-number">#{{ number(p.id) }}</span>
+          <div class="image-stage">
+            <span class="card-orbit"></span
+            ><img
+              [src]="'assets/pokemon/' + p.id + '.png'"
+              [alt]="p.name"
+              width="220"
+              height="220"
+              loading="lazy"
+            />
+          </div>
+          <div class="card-info">
+            <h3>{{ p.name | titlecase }}</h3>
+            <span class="card-arrow">↗</span>
+            <div class="types">
+              <span
+                *ngFor="let t of p.types"
+                class="type-badge"
+                [attr.data-type]="t"
+                >{{ t }}</span
+              >
+            </div>
+          </div>
+        </button>
+      </article>
+    </div>
+    <div class="empty" *ngIf="filtered.length === 0">
+      <span>⌕</span>
+      <h3>
+        {{
+          favoritesOnly && !query && !type
+            ? "Your adventure starts here."
+            : "No Pokémon found."
+        }}
+      </h3>
+      <p>
+        {{
+          favoritesOnly && !query && !type
+            ? "Tap a heart on any Pokémon to build your collection."
+            : "Try another name, number, or type."
+        }}
+      </p>
+      <button class="primary" (click)="reset()">Explore all Pokémon ↗</button>
+    </div>
+    <div class="load-more" *ngIf="filtered.length > limit">
+      <p>Showing {{ limit }} of {{ filtered.length }}</p>
+      <button (click)="limit = limit + 24">Discover more <span>↓</span></button>
+    </div>
+  </section>
+  <section class="closing">
+    <span class="pokeball"></span>
+    <p>A little nostalgia. A lot to discover.</p>
+    <span>Gotta explore them all.</span>
+  </section>
 </main>
+<footer>
+  <a class="brand small" href="./">poké<span>wiki</span>.</a>
+  <p>
+    Built by <a href="https://github.com/higueraDev">higueraDev</a> · Data from
+    <a href="https://pokeapi.co/">PokéAPI</a>
+  </p>
+  <span>A fan project. Pokémon © Nintendo / Creatures / GAME FREAK.</span>
+</footer>
+<dialog
+  #detail
+  (click)="backdrop($event)"
+  (close)="restoreFocus()"
+  aria-labelledby="detail-title"
+>
+  <ng-container *ngIf="selected as p"
+    ><button
+      class="close-dialog"
+      (click)="close()"
+      aria-label="Close Pokémon details"
+    >
+      ×
+    </button>
+    <div class="detail-art" [attr.data-type]="p.types[0]">
+      <span class="detail-number">#{{ number(p.id) }}</span
+      ><img
+        [src]="'assets/pokemon/' + p.id + '.png'"
+        [alt]="p.name"
+        width="260"
+        height="260"
+      />
+    </div>
+    <div class="detail-copy">
+      <p class="eyebrow">{{ p.genus }}</p>
+      <h2 id="detail-title">{{ p.name | titlecase }}</h2>
+      <div class="types">
+        <span
+          *ngFor="let t of p.types"
+          class="type-badge"
+          [attr.data-type]="t"
+          >{{ t }}</span
+        >
+      </div>
+      <p class="description">{{ p.description }}</p>
+      <dl>
+        <div>
+          <dt>Height</dt>
+          <dd>{{ p.height }} m</dd>
+        </div>
+        <div>
+          <dt>Weight</dt>
+          <dd>{{ p.weight }} kg</dd>
+        </div>
+        <div>
+          <dt>Abilities</dt>
+          <dd>{{ p.abilities.join(", ") | titlecase }}</dd>
+        </div>
+      </dl>
+      <h3>Base stats</h3>
+      <div class="stat" *ngFor="let stat of p.stats">
+        <span>{{ statName(stat.name) }}</span
+        ><b>{{ stat.value }}</b
+        ><meter
+          min="0"
+          max="255"
+          [value]="stat.value"
+          [attr.aria-label]="statName(stat.name)"
+        ></meter>
+      </div>
+      <button
+        class="primary save-detail"
+        (click)="toggleFavorite(p)"
+        [attr.aria-pressed]="favorites.has(p.id)"
+      >
+        {{
+          favorites.has(p.id) ? "♥ Saved to favorites" : "♡ Save to favorites"
+        }}
+      </button>
+    </div></ng-container
+  >
+</dialog>
